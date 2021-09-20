@@ -21,6 +21,7 @@ const { generateOutputFiles } = require("./output");
 const formatFileContent = require("./formatFileContent");
 const { logger } = require("./logger");
 const { ComponentTypeNameResolver } = require("./utils/resolveName");
+const { getPrettierOptions } = require("./prettierOptions");
 
 module.exports = {
   constants: constants,
@@ -46,7 +47,7 @@ module.exports = {
     defaultResponseType = config.defaultResponseType,
     unwrapResponseData = config.unwrapResponseData,
     singleHttpClient = config.singleHttpClient,
-    prettier: prettierOptions = constants.PRETTIER_OPTIONS,
+    prettier: prettierOptions = getPrettierOptions(),
     hooks: rawHooks,
     extraTemplates,
     enumNamesAsValues,
@@ -56,6 +57,7 @@ module.exports = {
     silent = config.silent,
     typePrefix = config.typePrefix,
     typeSuffix = config.typeSuffix,
+    patch = config.patch,
   }) =>
     new Promise((resolve, reject) => {
       addToConfig({
@@ -85,10 +87,11 @@ module.exports = {
         toJS: translateToJavaScript,
         typePrefix,
         typeSuffix,
+        patch,
       });
       (spec
-        ? convertSwaggerObject(spec)
-        : getSwaggerObject(input, url, disableStrictSSL, disableProxy)
+        ? convertSwaggerObject(spec, { patch })
+        : getSwaggerObject(input, url, disableStrictSSL, disableProxy, { patch })
       )
         .then(({ usageSchema, originalSchema }) => {
           const templatePaths = getTemplatePaths(config);

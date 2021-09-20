@@ -39,7 +39,8 @@
     "test:--axios--single-http-client": "node tests/spec/axiosSingleHttpClient/test.js",
     "test:--type-suffix--type-prefix": "node tests/spec/typeSuffixPrefix/test.js",
     "test:partialBaseTemplate": "node tests/spec/partialBaseTemplate/test.js",
-    "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js"
+    "test:partialDefaultTemplate": "node tests/spec/partialDefaultTemplate/test.js",
+    "test:--patch": "node tests/spec/patch/test.js"
   },
   "author": "acacode",
   "license": "MIT",
@@ -57,6 +58,7 @@
     "@types/swagger-schema-official": "2.0.21",
     "axios": "^0.21.1",
     "commander": "^6.2.1",
+    "cosmiconfig": "^7.0.0",
     "eta": "^1.12.1",
     "js-yaml": "^4.0.0",
     "lodash": "^4.17.21",

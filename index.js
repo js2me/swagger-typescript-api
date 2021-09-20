@@ -76,7 +76,8 @@ program
     "--clean-output",
     "clean output folder before generate api. WARNING: May cause data loss",
     false,
-  );
+  )
+  .option("--patch", "fix up small errors in the swagger source definition", false);
 
 program.parse(process.argv);
 
@@ -107,6 +108,7 @@ const {
   silent,
   typePrefix,
   typeSuffix,
+  patch,
 } = program;
 
 generateApi({
@@ -137,4 +139,5 @@ generateApi({
   silent: !!silent,
   typePrefix,
   typeSuffix,
+  patch: !!patch,
 });

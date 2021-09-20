@@ -83,6 +83,7 @@ const config = {
   silent: false,
   typePrefix: "",
   typeSuffix: "",
+  patch: false,
   componentTypeNameResolver: new NameResolver([]),
 };
 

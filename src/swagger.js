@@ -42,12 +42,18 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
     }
   });
 
-const getSwaggerObject = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
+const getSwaggerObject = (
+  pathToSwagger,
+  urlToSwagger,
+  disableStrictSSL,
+  disableProxy,
+  converterOptions,
+) =>
   getSwaggerFile(pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy).then((file) =>
-    convertSwaggerObject(parseSwaggerFile(file)),
+    convertSwaggerObject(parseSwaggerFile(file), converterOptions),
   );
 
-const convertSwaggerObject = (swaggerSchema) => {
+const convertSwaggerObject = (swaggerSchema, converterOptions) => {
   return new Promise((resolve) => {
     swaggerSchema.info = _.merge(
       {
@@ -63,6 +69,7 @@ const convertSwaggerObject = (swaggerSchema) => {
       converter.convertObj(
         swaggerSchema,
         {
+          ...converterOptions,
           warnOnly: true,
           refSiblings: "preserve",
           rbname: "requestBodyName",
