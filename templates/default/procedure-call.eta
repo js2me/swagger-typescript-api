@@ -50,6 +50,8 @@ const requestContentKind = {
     "JSON": "ContentType.Json",
     "URL_ENCODED": "ContentType.UrlEncoded",
     "FORM_DATA": "ContentType.FormData",
+    "TEXT_PLAIN": "ContentType.TextPlain",
+    "TEXT_URI_LIST": "ContentType.TextUriList",
 }
 // RequestParams["format"]
 const responseContentKind = {

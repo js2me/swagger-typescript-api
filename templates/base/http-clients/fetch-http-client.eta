@@ -45,6 +45,8 @@ export enum ContentType {
     Json = "application/json",
     FormData = "multipart/form-data",
     UrlEncoded = "application/x-www-form-urlencoded",
+    TextPlain = "text/plain",
+    TextUriList = "text/uri-list",
 }
 
 export class HttpClient<SecurityDataType = unknown> {
@@ -68,7 +70,7 @@ export class HttpClient<SecurityDataType = unknown> {
     public setSecurityData = (data: SecurityDataType | null) => {
         this.securityData = data;
     }
-    
+
     private encodeQueryParam(key: string, value: any) {
         const encodedKey = encodeURIComponent(key);
         return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
@@ -116,6 +118,8 @@ export class HttpClient<SecurityDataType = unknown> {
                 return formData;
             }, new FormData()),
         [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
+        [ContentType.TextPlain]: (input:any) => input !== null ? String(input) : input,
+        [ContentType.TextUriList]: (input:any) => input !== null ? String(input) : input,
     }
 
     private mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
