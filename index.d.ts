@@ -85,6 +85,10 @@ interface GenerateApiParams {
    */
   modular?: boolean;
   /**
+   * extract request body type to data contract (default: false)
+   */
+  extractRequestBody?: boolean;
+  /**
    * extract request params to data contract (Also combine path params and query params into one object)
    */
   extractRequestParams?: boolean;
