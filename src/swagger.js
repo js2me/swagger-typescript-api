@@ -18,7 +18,7 @@ const parseSwaggerFile = (file) => {
 };
 
 const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disableProxy) =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     if (pathIsExist(pathToSwagger)) {
       logger.log(`try to get swagger by path "${pathToSwagger}"`);
       resolve(getFileContent(pathToSwagger));
@@ -38,7 +38,13 @@ const getSwaggerFile = (pathToSwagger, urlToSwagger, disableStrictSSL, disablePr
       axios
         .get(urlToSwagger, axiosOptions)
         .then((res) => resolve(res.data))
-        .catch((err) => logger.error(`error while getting swagger by URL ${urlToSwagger}:`, err));
+        .catch(() => {
+          const message = `error while getting swagger by URL ${urlToSwagger}`;
+
+          logger.error(message);
+
+          reject(message);
+        });
     }
   });
 

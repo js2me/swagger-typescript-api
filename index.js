@@ -33,29 +33,20 @@ program
   )
   .option(
     "-r, --responses",
-    "generate additional information about request responses\n" +
-      "also add typings for bad responses",
+    "generate additional information about request responses\n" + "also add typings for bad responses",
     false,
   )
   .option("--union-enums", 'generate all "enum" types as union types (T1 | T2 | TN)', false)
   .option("--route-types", "generate type definitions for API routes", false)
   .option("--no-client", "do not generate an API class", false)
-  .option(
-    "--enum-names-as-values",
-    "use values in 'x-enumNames' as enum values (not only as keys)",
-    false,
-  )
+  .option("--enum-names-as-values", "use values in 'x-enumNames' as enum values (not only as keys)", false)
   .option(
     "--extract-request-params",
     "extract request params to data contract (Also combine path params and query params into one object)",
     false,
   )
   .option("--extract-request-body", "extract request body type to data contract", false)
-  .option(
-    "--modular",
-    "generate separated files for http client, data contracts, and routes",
-    false,
-  )
+  .option("--modular", "generate separated files for http client, data contracts, and routes", false)
   .option("--js", "generate js api module with declaration file", false)
   .option(
     "--module-name-index <number>",
@@ -72,11 +63,7 @@ program
   .option("--default-response <type>", "default type for empty response schema", TS_KEYWORDS.VOID)
   .option("--type-prefix <string>", "data contract name prefix", "")
   .option("--type-suffix <string>", "data contract name suffix", "")
-  .option(
-    "--clean-output",
-    "clean output folder before generate api. WARNING: May cause data loss",
-    false,
-  )
+  .option("--clean-output", "clean output folder before generate api. WARNING: May cause data loss", false)
   .option("--patch", "fix up small errors in the swagger source definition", false);
 
 program.parse(process.argv);
@@ -140,4 +127,9 @@ generateApi({
   typePrefix,
   typeSuffix,
   patch: !!patch,
+}).catch((err) => {
+  // NOTE collect all errors on top level and shows to users in any case
+  console.error(err);
+
+  process.exit(1);
 });
