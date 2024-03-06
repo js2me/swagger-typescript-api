@@ -28,6 +28,7 @@ const SCHEMA_TYPES = {
 const HTTP_CLIENT = {
   FETCH: 'fetch',
   AXIOS: 'axios',
+  KY: 'ky',
 };
 
 const PROJECT_VERSION = packageJson.version;

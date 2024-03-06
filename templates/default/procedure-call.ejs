@@ -72,6 +72,9 @@ const describeReturnType = () => {
         case HTTP_CLIENT.AXIOS: {
           return `Promise<AxiosResponse<${type}>>`
         }
+        case HTTP_CLIENT.KY: {
+          return `KyResponse<${type}>`
+        }
         default: {
           return `Promise<HttpResponse<${type}, ${errorType}>`
         }

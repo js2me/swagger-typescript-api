@@ -68,6 +68,7 @@ Options:
   --disableStrictSSL            disabled strict SSL (default: false)
   --disableProxy                disabled proxy (default: false)
   --axios                       generate axios http client (default: false)
+  --ky                          generate ky http client (default: false)
   --unwrap-response-data        unwrap the data item from the response (default: false)
   --disable-throw-on-error      Do not throw an error when response.ok is not true (default: false)
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
@@ -124,7 +125,7 @@ generateApi({
     // ...
   },
   templates: path.resolve(process.cwd(), './api-templates'),
-  httpClientType: "axios", // or "fetch"
+  httpClientType: "axios", // or "fetch" or "ky"
   defaultResponseAsSuccess: false,
   generateClient: true,
   generateRouteTypes: false,

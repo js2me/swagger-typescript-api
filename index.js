@@ -163,6 +163,11 @@ const program = cli({
       default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.AXIOS,
     },
     {
+      flags: '--ky',
+      description: 'generate axios http client',
+      default: codeGenBaseConfig.httpClientType === HTTP_CLIENT.KY,
+    },
+    {
       flags: '--unwrap-response-data',
       description: 'unwrap the data item from the response',
       default: codeGenBaseConfig.unwrapResponseData,
@@ -324,7 +329,7 @@ const main = async () => {
           url: options.path,
           generateRouteTypes: options.routeTypes,
           generateClient: !!(options.axios || options.client),
-          httpClientType: options.axios ? HTTP_CLIENT.AXIOS : HTTP_CLIENT.FETCH,
+          httpClientType: options.axios ? HTTP_CLIENT.AXIOS : options.ky ? HTTP_CLIENT.KY : HTTP_CLIENT.FETCH,
           input: resolve(process.cwd(), options.path),
           output: resolve(process.cwd(), options.output || '.'),
           ...customConfig,
