@@ -472,6 +472,52 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  iKey = {
+    /**
+     * @description Get public details of an Authentiq ID.
+     *
+     * @tags key, get
+     * @name IKeyDetail
+     * @request GET:/i_key/{i_PK}
+     */
+    iKeyDetail: (iPk: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** @format date-time */
+          since?: string;
+          status?: string;
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
+        path: `/i_key/${iPk}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Get public details of an Authentiq ID.
+     *
+     * @tags key, get
+     * @name UnderlinesDetail
+     * @request GET:/i_key/underlines/{i__UK}
+     */
+    underlinesDetail: (iUk: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** base64safe encoded public signing key */
+          sub?: string;
+        },
+        Error
+      >({
+        path: `/i_key/underlines/${iUk}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
   login = {
     /**
      * @description push sign-in request See: https://github.com/skion/authentiq/wiki/JWT-Examples

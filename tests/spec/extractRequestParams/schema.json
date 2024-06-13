@@ -56,6 +56,20 @@
       "required": true,
       "type": "string"
     },
+    "i__UK": {
+      "description": "Variable with double __ in it.",
+      "in": "path",
+      "name": "i__UK",
+      "required": true,
+      "type": "string"
+    },
+    "i_PK": {
+      "description": "Public Signing Key - Authentiq ID (43 chars)",
+      "in": "path",
+      "name": "i_PK",
+      "required": true,
+      "type": "string"
+    },
     "BarBaz": {
       "description": "bar baz",
       "in": "path",
@@ -422,6 +436,85 @@
           }
         },
         "tags": ["key", "put"]
+      }
+    },
+    "/i_key/{i_PK}": {
+      "get": {
+        "description": "Get public details of an Authentiq ID.\n",
+        "parameters": [
+          {
+            "$ref": "#/parameters/i_PK"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved",
+            "schema": {
+              "properties": {
+                "since": {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "sub": {
+                  "description": "base64safe encoded public signing key",
+                  "type": "string"
+                }
+              },
+              "title": "JWT",
+              "type": "object"
+            }
+          },
+          "404": {
+            "description": "Unknown key `unknown-key`",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "410": {
+            "description": "Key is revoked (gone). `revoked-key`",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        },
+        "tags": ["key", "get"]
+      }
+    },
+    "/i_key/underlines/{i__UK}": {
+      "get": {
+        "description": "Get public details of an Authentiq ID.\n",
+        "parameters": [
+          {
+            "$ref": "#/parameters/i__UK"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved",
+            "schema": {
+              "properties": {
+                "sub": {
+                  "description": "base64safe encoded public signing key",
+                  "type": "string"
+                }
+              },
+              "title": "JWT",
+              "type": "object"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        },
+        "tags": ["key", "get"]
       }
     },
     "/login": {
