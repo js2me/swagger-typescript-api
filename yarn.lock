@@ -3030,6 +3030,8 @@ __metadata:
     tsup: "npm:8.1.0"
     typescript: "npm:~5.5.2"
     vitest: "npm:2.0.1"
+  peerDependencies:
+    prettier: ~3
   bin:
     sta: ./dist/cli.js
     swagger-typescript-api: ./dist/cli.js

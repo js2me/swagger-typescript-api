@@ -53,7 +53,6 @@
     "lodash": "^4.17.21",
     "nanoid": "^3.3.7",
     "node-emoji": "^2.1.3",
-    "prettier": "~3.3.2",
     "swagger-schema-official": "2.0.0-bab6bed",
     "swagger2openapi": "^7.0.8",
     "typescript": "~5.5.2"
@@ -68,9 +67,13 @@
     "@types/node": "20.14.10",
     "@types/swagger2openapi": "7.0.4",
     "axios": "1.7.2",
+    "prettier": "~3.3.2",
     "shx": "0.3.4",
     "tsup": "8.1.0",
     "vitest": "2.0.1"
+  },
+  "peerDependencies": {
+    "prettier": "~3"
   },
   "packageManager": "yarn@4.3.1",
   "engines": {
