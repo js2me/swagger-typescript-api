@@ -63,8 +63,11 @@ export class HttpClient {
     [ContentType.Json]: (input) =>
       input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
     [ContentType.Text]: (input) => (input !== null && typeof input !== "string" ? JSON.stringify(input) : input),
-    [ContentType.FormData]: (input) =>
-      Object.keys(input || {}).reduce((formData, key) => {
+    [ContentType.FormData]: (input) => {
+      if (input instanceof FormData) {
+        return input;
+      }
+      return Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
         formData.append(
           key,
@@ -75,7 +78,8 @@ export class HttpClient {
               : \`\${property}\`,
         );
         return formData;
-      }, new FormData()),
+      }, new FormData());
+    },
     [ContentType.UrlEncoded]: (input) => this.toQueryString(input),
   };
   mergeRequestParams(params1, params2) {
