@@ -1,9 +1,7 @@
 name: Publish
 
 on:
-  release:
-    types:
-      - published
+  - push
 
 permissions: read-all
 
@@ -29,6 +27,8 @@ jobs:
 
       - run: yarn install --immutable
 
-      - run: yarn npm publish --tolerate-republish
+      - run: yarn build
+
+      - run: yarn npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

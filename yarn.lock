@@ -2520,9 +2520,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-typescript-api@workspace:.":
+"swagger-typescript-api-untaek@workspace:.":
   version: 0.0.0-use.local
-  resolution: "swagger-typescript-api@workspace:."
+  resolution: "swagger-typescript-api-untaek@workspace:."
   dependencies:
     "@biomejs/biome": "npm:1.9.4"
     "@tsconfig/node18": "npm:18.2.4"

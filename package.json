@@ -1,10 +1,10 @@
 {
-  "name": "swagger-typescript-api",
+  "name": "swagger-typescript-api-untaek",
   "version": "13.0.22",
   "description": "Generate the API client for Fetch or Axios from an OpenAPI Specification",
   "homepage": "https://github.com/acacode/swagger-typescript-api",
   "bugs": "https://github.com/acacode/swagger-typescript-api/issues",
-  "repository": "github:acacode/swagger-typescript-api",
+  "repository": "github:Untaek/swagger-typescript-api",
   "license": "MIT",
   "author": "Sergey Volkov <js2me@outlook.com>",
   "contributors": [
