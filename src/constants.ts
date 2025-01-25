@@ -17,6 +17,7 @@ export const FILE_PREFIX = `/* eslint-disable */
 
 export const HTTP_CLIENT = {
   FETCH: "fetch",
+  OFETCH: "ofetch",
   AXIOS: "axios",
 } as const;
 

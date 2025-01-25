@@ -2,7 +2,7 @@ import type { ComponentTypeNameResolver } from "../src/component-type-name-resol
 import type { MonoSchemaParser } from "../src/schema-parser/mono-schema-parser.js";
 import type { Translator } from "../src/translators/translator.js";
 
-type HttpClientType = "axios" | "fetch";
+type HttpClientType = "axios" | "fetch" | "ofetch";
 
 interface GenerateApiParamsBase {
   /**
@@ -638,7 +638,7 @@ export interface GenerateApiConfiguration {
     debug: boolean;
     anotherArrayType: boolean;
     extractRequestBody: boolean;
-    httpClientType: "axios" | "fetch";
+    httpClientType: "axios" | "fetch" | "ofetch";
     addReadonly: boolean;
     extractResponseBody: boolean;
     extractResponseError: boolean;

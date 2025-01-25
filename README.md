@@ -40,6 +40,7 @@ Options:
   --module-name-index <number>  determines which path index should be used for routes separation (example: GET:/fruits/getFruit -> index:0 -> moduleName -> fruits) (default: 0)
   --module-name-first-tag       splits routes based on the first tag (default: false)
   --axios                       generate axios http client (default: false)
+  --ofetch                      generate ofetch http client (default: false)
   --unwrap-response-data        unwrap the data item from the response (default: false)
   --disable-throw-on-error      Do not throw an error when response.ok is not true (default: false)
   --single-http-client          Ability to send HttpClient instance to Api constructor (default: false)
@@ -62,7 +63,7 @@ Commands:
   generate-templates              Generate ".ejs" templates needed for generate api
     -o, --output <string>         output path of generated templates
     -m, --modular                 generate templates needed to separate files for http client, data contracts, and routes (default: false)
-    --http-client <string>        http client type (possible values: "fetch", "axios") (default: "fetch")
+    --http-client <string>        http client type (possible values: "fetch", "axios", "ofetch") (default: "fetch")
     -c, --clean-output            clean output folder before generate template. WARNING: May cause data loss (default: false)
     -r, --rewrite                 rewrite content in existing templates (default: false)
     --silent                      Output only errors to console (default: false)

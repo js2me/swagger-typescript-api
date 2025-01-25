@@ -1,0 +1,123 @@
+<%
+const { apiConfig, generateResponses, config } = it;
+%>
+
+import type { $Fetch, FetchOptions } from 'ofetch'
+import { $fetch } from 'ofetch'
+
+export type QueryParamsType = Record<string | number, any>;
+export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
+
+export interface CustomFetchOptions extends FetchOptions {
+  /** set parameter to `true` for call `securityWorker` for this request */
+  secure?: boolean
+}
+
+export type RequestParams = Omit<CustomFetchOptions, 'body' | 'method'>
+
+export interface ApiConfig<SecurityDataType = unknown> {
+    baseURL?: string;
+    basePath?: string;
+    baseApiParams?: Omit<RequestParams, "baseURL" | "cancelToken" | "signal">;
+    securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+    customFetch?: $Fetch;
+}
+
+type CancelToken = Symbol | string | number;
+
+export enum ContentType {
+    Json = "application/json",
+    FormData = "multipart/form-data",
+    UrlEncoded = "application/x-www-form-urlencoded",
+}
+
+export class HttpClient<SecurityDataType = unknown> {
+    public baseURL: string = "<%~ apiConfig.baseUrl %>";
+    private securityData: SecurityDataType | null = null;
+    private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
+    private abortControllers = new Map<CancelToken, AbortController>();
+    private customFetch = (url: string, fetchParams: FetchOptions) => $fetch(url, fetchParams)
+
+    private baseApiParams: RequestParams = {
+        credentials: 'same-origin',
+        headers: {},
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer',
+    }
+
+    constructor(apiConfig: ApiConfig<SecurityDataType> = {}) {
+        Object.assign(this, apiConfig);
+    }
+
+    public setSecurityData = (data: SecurityDataType | null) => {
+        this.securityData = data;
+    }
+
+    protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+        return {
+            ...this.baseApiParams,
+            ...params1,
+            ...(params2 || {}),
+            headers: {
+                ...(this.baseApiParams.headers || {}),
+                ...(params1.headers || {}),
+                ...((params2 && params2.headers) || {}),
+            },
+        };
+    }
+
+    protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+        if (this.abortControllers.has(cancelToken)) {
+            const abortController = this.abortControllers.get(cancelToken);
+            if (abortController) {
+                return abortController.signal;
+            }
+            return void 0;
+        }
+
+        const abortController = new AbortController();
+        this.abortControllers.set(cancelToken, abortController);
+        return abortController.signal;
+    }
+
+    public abortRequest = (cancelToken: CancelToken) => {
+        const abortController = this.abortControllers.get(cancelToken)
+
+        if (abortController) {
+            abortController.abort();
+            this.abortControllers.delete(cancelToken);
+        }
+    }
+
+    public request = async <T = any>(url: string, {
+        body,
+        secure,
+        method,
+        baseURL,
+        signal,
+        params,
+        ...options
+<% if (config.unwrapResponseData) { %>
+    }: CustomFetchOptions): Promise<T> => {
+<% } else { %>
+    }: CustomFetchOptions): Promise<T> => {
+<% } %>
+        const secureParams = ((typeof secure === 'boolean' ? secure : this.baseApiParams.secure) && this.securityWorker && await this.securityWorker(this.securityData)) || {};
+        const requestOptions = this.mergeRequestParams(options, secureParams)
+
+        return this.customFetch(
+        `${baseURL || this.baseURL || ""}${this.basePath ? `${this.basePath}` : ''}${url}`,
+        {
+            params,
+            method,
+            ...requestOptions,
+            signal,
+            body,
+        }
+        <% if (config.unwrapResponseData) { %>
+            ).then((response: T) => response.data)
+<% } else { %>
+            ).then((response: T) => response)
+<% } %>
+    };
+}

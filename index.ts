@@ -191,6 +191,11 @@ const generateCommand = defineCommand({
       description: "generate axios http client",
       default: false,
     },
+    ofetch: {
+      type: "boolean",
+      description: "generate ofetch http client",
+      default: false,
+    },
     "unwrap-response-data": {
       type: "boolean",
       description: "unwrap the data item from the response",
@@ -318,7 +323,9 @@ const generateCommand = defineCommand({
       httpClientType:
         args["http-client"] || args.axios
           ? HTTP_CLIENT.AXIOS
-          : HTTP_CLIENT.FETCH,
+          : args.ofetch
+            ? HTTP_CLIENT.OFETCH
+            : HTTP_CLIENT.FETCH,
       input: path.resolve(process.cwd(), args.path as string),
       modular: args.modular,
       moduleNameFirstTag: args["module-name-first-tag"],

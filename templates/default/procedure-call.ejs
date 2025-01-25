@@ -88,13 +88,20 @@ const describeReturnType = () => {
 
  */
 <%~ route.routeName.usage %><%~ route.namespace ? ': ' : ' = ' %>(<%~ wrapperArgs %>)<%~ config.toJS ? `: ${describeReturnType()}` : "" %> =>
+<% if (config.httpClientType === config.constants.HTTP_CLIENT.OFETCH) { %>
+    <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>>(`<%~ path %>`, {
+<% } %>
+<% if (config.httpClientType !== config.constants.HTTP_CLIENT.OFETCH) { %>
     <%~ config.singleHttpClient ? 'this.http.request' : 'this.request' %><<%~ type %>, <%~ errorType %>>({
         path: `<%~ path %>`,
+<% } %>
         method: '<%~ _.upperCase(method) %>',
         <%~ queryTmpl ? `query: ${queryTmpl},` : '' %>
         <%~ bodyTmpl ? `body: ${bodyTmpl},` : '' %>
         <%~ securityTmpl ? `secure: ${securityTmpl},` : '' %>
+    <% if (config.httpClientType !== config.constants.HTTP_CLIENT.OFETCH) { %>
         <%~ bodyContentKindTmpl ? `type: ${bodyContentKindTmpl},` : '' %>
         <%~ responseFormatTmpl ? `format: ${responseFormatTmpl},` : '' %>
+    <% } %>
         ...<%~ _.get(requestConfigParam, "name") %>,
     })<%~ route.namespace ? ',' : '' %>
