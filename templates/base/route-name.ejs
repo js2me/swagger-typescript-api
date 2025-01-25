@@ -23,7 +23,7 @@ const methodAliases = {
 };
 
 const createCustomOperationId = (method, route, moduleName) => {
-  const hasPathInserts = /\{(\w){1,}\}/g.test(route);
+  const hasPathInserts = /\{(\w){1,}\}$/g.test(route);
   const splittedRouteBySlash = _.compact(_.replace(route, /\{(\w){1,}\}/g, "").split("/"));
   const routeParts = (splittedRouteBySlash.length > 1
     ? splittedRouteBySlash.splice(1)
