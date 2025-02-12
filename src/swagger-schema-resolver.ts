@@ -59,6 +59,7 @@ export class SwaggerSchemaResolver {
           result as OpenAPIV2.Document,
           {
             ...converterOptions,
+            resolveInternal: true,
             warnOnly: true,
             refSiblings: "preserve",
             rbname: "requestBodyName",
