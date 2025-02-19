@@ -69,7 +69,7 @@
     "axios": "1.7.9",
     "openapi-types": "12.1.3",
     "tsup": "8.3.6",
-    "vitest": "3.0.5"
+    "vitest": "3.0.6"
   },
   "packageManager": "yarn@4.6.0",
   "engines": {
