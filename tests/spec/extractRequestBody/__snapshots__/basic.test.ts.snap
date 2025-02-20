@@ -152,6 +152,18 @@ export interface SingleFormUrlEncodedRequestPayloadTTT {
   param2: string;
 }
 
+export interface FormUrlEncodedRequestPayloadTTT {
+  /** @format string */
+  param1: string;
+  param2: string;
+}
+
+export interface FormUrlEncodedRequest2PayloadTTT {
+  /** @format string */
+  param1: string;
+  param2: string;
+}
+
 export interface UpdatePetWithFormPayloadTTT {
   /** Updated name of the pet */
   name?: string;
@@ -165,6 +177,10 @@ export interface UploadFilePayloadTTT {
   /** file to upload */
   file?: File;
 }
+
+export type CreateUsersWithArrayInputPayloadTTT = UserTTT[];
+
+export type CreateUsersWithListInputPayloadTTT = UserTTT[];
 
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
@@ -477,14 +493,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary summary
      * @request POST:/pet/form-url-encoded
      */
-    formUrlEncodedRequest: (
-      data: {
-        /** @format string */
-        param1: string;
-        param2: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    formUrlEncodedRequest: (data: FormUrlEncodedRequestPayloadTTT, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/pet/form-url-encoded\`,
         method: "POST",
@@ -503,14 +512,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @originalName formUrlEncodedRequest
      * @duplicate
      */
-    formUrlEncodedRequest2: (
-      data: {
-        /** @format string */
-        param1: string;
-        param2: string;
-      },
-      params: RequestParams = {},
-    ) =>
+    formUrlEncodedRequest2: (data: FormUrlEncodedRequest2PayloadTTT, params: RequestParams = {}) =>
       this.request<void, void>({
         path: \`/pet/end-form-url-encoded\`,
         method: "POST",
@@ -713,7 +715,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithArray
      */
-    createUsersWithArrayInput: (body: UserTTT[], params: RequestParams = {}) =>
+    createUsersWithArrayInput: (body: CreateUsersWithArrayInputPayloadTTT, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/user/createWithArray\`,
         method: "POST",
@@ -730,7 +732,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @summary Creates list of users with given input array
      * @request POST:/user/createWithList
      */
-    createUsersWithListInput: (body: UserTTT[], params: RequestParams = {}) =>
+    createUsersWithListInput: (body: CreateUsersWithListInputPayloadTTT, params: RequestParams = {}) =>
       this.request<any, void>({
         path: \`/user/createWithList\`,
         method: "POST",

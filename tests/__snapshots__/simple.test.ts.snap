@@ -691,7 +691,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/dashboards
      * @secure
      */
-    createDashboard: (username: string, dashboard: Dashboard, params: RequestParams = {}) =>
+    createDashboard: (
+      username: string,
+      dashboard: {
+        description?: string;
+        key?: string;
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Dashboard, void>({
         path: \`/\${username}/dashboards\`,
         method: "POST",
@@ -729,7 +737,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/dashboards/{dashboard_id}/blocks
      * @secure
      */
-    createBlock: (username: string, dashboardId: string, block: Block, params: RequestParams = {}) =>
+    createBlock: (
+      username: string,
+      dashboardId: string,
+      block: {
+        block_feeds?: {
+          feed_id?: string;
+          group_id?: string;
+        }[];
+        column?: number;
+        dashboard_id?: number;
+        description?: string;
+        key?: string;
+        name?: string;
+        properties?: object;
+        row?: number;
+        size_x?: number;
+        size_y?: number;
+        visual_type?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Block, void>({
         path: \`/\${username}/dashboards/\${dashboardId}/blocks\`,
         method: "POST",
@@ -981,7 +1009,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     createFeed: (
       username: string,
-      feed: Feed,
+      feed: {
+        description?: string;
+        key?: string;
+        license?: string;
+        name?: string;
+      },
       query?: {
         group_key?: string;
       },
@@ -1174,7 +1207,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/feeds/{feed_key}/data/batch
      * @secure
      */
-    batchCreateData: (username: string, feedKey: string, data: Data, params: RequestParams = {}) =>
+    batchCreateData: (
+      username: string,
+      feedKey: string,
+      data: {
+        /** @format dateTime */
+        created_at?: string;
+        ele?: string;
+        epoch?: number;
+        lat?: string;
+        lon?: string;
+        value?: string;
+      }[],
+      params: RequestParams = {},
+    ) =>
       this.request<DataResponse[], void>({
         path: \`/\${username}/feeds/\${feedKey}/data/batch\`,
         method: "POST",
@@ -1533,7 +1579,15 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/groups
      * @secure
      */
-    createGroup: (username: string, group: Group, params: RequestParams = {}) =>
+    createGroup: (
+      username: string,
+      group: {
+        description?: string;
+        key?: string;
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Group, void>({
         path: \`/\${username}/groups\`,
         method: "POST",
@@ -1936,7 +1990,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/tokens
      * @secure
      */
-    createToken: (username: string, token: Token, params: RequestParams = {}) =>
+    createToken: (
+      username: string,
+      token: {
+        token?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Token, void>({
         path: \`/\${username}/tokens\`,
         method: "POST",
@@ -2064,7 +2124,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/{username}/triggers
      * @secure
      */
-    createTrigger: (username: string, trigger: Trigger, params: RequestParams = {}) =>
+    createTrigger: (
+      username: string,
+      trigger: {
+        name?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<Trigger, void>({
         path: \`/\${username}/triggers\`,
         method: "POST",
@@ -2196,7 +2262,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       username: string,
       type: string,
       typeId: string,
-      permission: Permission,
+      permission: {
+        /** @default "r" */
+        mode?: "r" | "w" | "rw";
+        /** @default "public" */
+        scope?: "secret" | "public" | "user" | "organization";
+        scope_value?: string;
+      },
       params: RequestParams = {},
     ) =>
       this.request<Permission, void>({
