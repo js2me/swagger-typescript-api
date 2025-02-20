@@ -28,6 +28,9 @@ export interface ApiConfig<SecurityDataType = unknown> extends Omit<AxiosRequest
   securityWorker?: (securityData: SecurityDataType | null) => Promise<AxiosRequestConfig | void> | AxiosRequestConfig | void;
   secure?: boolean;
   format?: ResponseType;
+  customAction?: <T>(
+    action: () => Promise<AxiosResponse<T>>,
+  ) => Promise<AxiosResponse<T>>;
 }
 
 export enum ContentType {
@@ -43,12 +46,13 @@ export class HttpClient<SecurityDataType = unknown> {
     private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
     private secure?: boolean;
     private format?: ResponseType;
-
-    constructor({ securityWorker, secure, format, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
+    private customAction?: ApiConfig<SecurityDataType>["customAction"];
+    constructor({ securityWorker, secure, format, customAction, ...axiosConfig }: ApiConfig<SecurityDataType> = {}) {
         this.instance = axios.create({ ...axiosConfig, baseURL: axiosConfig.baseURL || "<%~ apiConfig.baseUrl %>" })
         this.secure = secure;
         this.format = format;
         this.securityWorker = securityWorker;
+        this.customAction = customAction;
     }
 
     public setSecurityData = (data: SecurityDataType | null) => {
@@ -123,7 +127,7 @@ export class HttpClient<SecurityDataType = unknown> {
           body = JSON.stringify(body);
         }
 
-        return this.instance.request({
+        const action = () => this.instance.request({
             ...requestParams,
             headers: {
                 ...(requestParams.headers || {}),
@@ -138,5 +142,7 @@ export class HttpClient<SecurityDataType = unknown> {
 <% } else { %>
         });
 <% } %>
+
+      return this.customAction ? this.customAction(action) : action();
     };
 }
